@@ -71,6 +71,9 @@ src/
   ├── stores/         # Pinia stores
   ├── services/       # API services
   ├── router/         # Vue Router configuration
+  ├── i18n/           # Internationalization
+  │   └── locales/    # Translation files
+  ├── interfaces/     # TypeScript interfaces
   ├── App.vue         # Root component
   └── main.ts         # Application entry point
 ```
@@ -82,4 +85,6 @@ src/
 - Vite
 - Pinia
 - Vue Router
-- Axios
+- Vue I18n
+- Vitest
+- Vue Test Utils
