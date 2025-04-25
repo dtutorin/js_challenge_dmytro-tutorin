@@ -1,14 +1,19 @@
 <template>
   <div class="product-card">
-    <img :src="product.thumbnail" :alt="product.title" class="product-image" />
+    <img 
+      :src="product.thumbnail" 
+      :alt="product.title" 
+      class="product-image" 
+      @error="handleImageError"
+    />
     <div class="product-info">
       <h3 class="product-title">{{ product.title }}</h3>
       <p class="product-price">${{ product.price }}</p>
-      <button @click="addToCart" class="add-to-cart-btn">Add to Cart</button>
+      <button @click="addToCart" class="add-to-cart-btn">{{ $t('common.addToCart') }}</button>
     </div>
     <Alert 
       v-if="showAlert" 
-      message="Product has been added to cart" 
+      :message="$t('alerts.addedToCart')" 
       type="success"
       @close="showAlert = false"
     />
@@ -33,6 +38,11 @@ const props = defineProps<{
 
 const cartStore = useCartStore()
 const showAlert = ref(false)
+const imageError = ref(false)
+
+const handleImageError = () => {
+  imageError.value = true
+}
 
 const addToCart = () => {
   cartStore.addToCart({
@@ -70,6 +80,18 @@ const addToCart = () => {
   object-fit: cover;
   border-radius: 4px;
   aspect-ratio: 1;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.product-image::after {
+  content: attr(data-no-image);
+  display: block;
+  text-align: center;
 }
 
 .product-info {

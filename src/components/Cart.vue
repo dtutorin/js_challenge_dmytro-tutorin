@@ -2,7 +2,7 @@
   <div class="cart">
     <h2>Shopping Cart</h2>
     <div v-if="isCartEmpty" class="empty-cart">
-      Your cart is empty
+      {{ $t('common.emptyCart') }}
     </div>
     <div v-else class="cart-items">
       <div v-for="item in cartStore.items" :key="item.id" class="cart-item">
@@ -20,8 +20,9 @@
       </div>
     </div>
     <div class="cart-total">
-      <p>Total: ${{ cartStore.totalPrice.toFixed(2) }}</p>
+      <p>{{ $t('common.total') }}: ${{ cartStore.totalPrice.toFixed(2) }}</p>
     </div>
+    <!-- this example with custom duration -->
     <Alert 
       v-if="showAlert" 
       :message="alertMessage" 
@@ -36,8 +37,10 @@
 import type { CartItem } from '@/interfaces/cart'
 import { useCartStore } from '@/stores/cart'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Alert from './Alert.vue'
 
+const { t } = useI18n()
 const cartStore = useCartStore()
 const showAlert = ref(false)
 const alertMessage = ref('')
@@ -51,32 +54,29 @@ const showNotification = (message: string, type: 'success' | 'error') => {
   showAlert.value = true
 }
 
-const updateQuantity = (productId: number, quantity: number) => {
-  cartStore.updateQuantity(productId, quantity)
-  showNotification('Product quantity has been updated', 'success')
-}
-
-const removeFromCart = (productId: number) => {
-  cartStore.removeFromCart(productId)
-  showNotification('Product has been removed from cart', 'success')
-}
-
 const decreaseQuantity = (productId: number) => {
   const item = cartStore.items.find((item: CartItem) => item.id === productId)
   if (item && item.quantity > 1) {
-    updateQuantity(productId, item.quantity - 1)
+    cartStore.updateQuantity(productId, item.quantity - 1)
+    showNotification(t('alerts.quantityDecreased'), 'success')
   } else {
-    removeFromCart(productId)
+    cartStore.removeFromCart(productId)
+    showNotification(t('alerts.removedFromCart'), 'success')
   }
 }
 
 const increaseQuantity = (productId: number) => {
   const item = cartStore.items.find((item: CartItem) => item.id === productId)
   if (item) {
-    updateQuantity(productId, item.quantity + 1)
+    cartStore.updateQuantity(productId, item.quantity + 1)
+    showNotification(t('alerts.quantityIncreased'), 'success')
   }
 }
 
+const removeFromCart = (productId: number) => {
+  cartStore.removeFromCart(productId)
+  showNotification(t('alerts.removedFromCart'), 'success')
+}
 </script>
 
 <style scoped>

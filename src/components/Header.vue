@@ -35,7 +35,7 @@
                 @click="closeMenu"
               >
                 <span class="menu-icon">🏠</span>
-                <span>Home</span>
+                <span>{{ $t('header.home') }}</span>
               </router-link>
             </li>
             <li>
@@ -45,7 +45,7 @@
                 @click="closeMenu"
               >
                 <span class="menu-icon">🛒</span>
-                <span>Cart</span>
+                <span>{{ $t('header.cart') }}</span>
                 <span class="cart-count">{{ cartStore.totalItems }}</span>
               </router-link>
             </li>
