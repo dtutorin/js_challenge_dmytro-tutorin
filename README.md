@@ -88,3 +88,13 @@ src/
 - Vue I18n
 - Vitest
 - Vue Test Utils
+
+## Proposed Improvements
+
+- Goods categories filters;
+- Search field (searching for goods);
+- Separate pages for each particular good;
+- Prepare Storybook for UI (not really important in this case as for me. because that's a minimal functionality);
+- ARIA labels;
+- (optional) to add Sentry for tracking user's errors
+- Implement Vue Storefront for creating PWA
